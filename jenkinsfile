@@ -40,6 +40,7 @@ pipeline {
               
                 steps{
                     script{
+		        sh 'cp -r ../my_pjt_new@2/target .'
                         withCredentials([string(credentialsId: 'docker-pass', variable: 'nexus_pwd')]) {
                         sh '''
                            docker build -t 35.192.181.197:8083/spring:${VERSION} .

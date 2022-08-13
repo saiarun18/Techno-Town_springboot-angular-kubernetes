@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-conf
+data:
+ host: {{ .Values.data.hosts }}
+ name: {{ .Values.data.name }}

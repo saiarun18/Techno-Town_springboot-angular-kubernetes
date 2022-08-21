@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}  
-      - image: {{ .Values.image.repository }}:{{ .Values.image.tag }} # image from docker-hub
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }} # image from docker-hub
         args:
           - "--ignore-db-dir=lost+found" # Workaround for https://github.com/docker-library/mysql/issues/186
         name: mysql 

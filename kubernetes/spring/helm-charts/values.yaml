@@ -5,12 +5,13 @@
 replicaCount: 2
 
 image:
-  repository: arun1801docker/springboot-k8s-deployment
-  pullPolicy: IfNotPresent
+  repository: arun1801docker/springboot-k8s-deployment:3.0
+  imagepullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "2.0"
+  tag: "3.0"
 
 service:
+  name: ui
   type: NodePort
   port: 8080
   nodePort: 30163

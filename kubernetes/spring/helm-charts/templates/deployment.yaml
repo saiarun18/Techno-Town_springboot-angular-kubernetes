@@ -1,7 +1,7 @@
 apiVersion: apps/v1 
 kind: Deployment    
 metadata:              
-  name: {{ include "helm-charts.fullname" . }}
+  name: {{ .Release.Name }}
   labels:
     {{- include "helm-charts.labels" . | nindent 4 }}
 spec:                
@@ -12,11 +12,12 @@ spec:
   template:
     metadata:
       labels:        
-        {{- include "helm-charts.selectorLabels" . | nindent 8 }}
+      {{- include "helm-charts.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          image: {{ .Values.image.repository | quote }}
+          imagePullPolicy: {{ .Values.image.imagepullPolicy }}
           ports:
             - containerPort: 8080                
           env:   # Setting Enviornmental Variables

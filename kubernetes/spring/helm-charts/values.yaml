@@ -5,10 +5,10 @@
 replicaCount: 2
 
 image:
-  repository: arun1801docker/springboot-k8s-deployment:3.0
+  repository: IMAGE_NAME
   imagepullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "3.0"
+  tag: IMAGE_TAG
 
 service:
   name: ui

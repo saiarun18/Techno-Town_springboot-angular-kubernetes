@@ -10,4 +10,4 @@ spec:
     - ReadWriteOnce   #This specifies the mode of the claim that we are trying to create.
   resources:
     requests:
-      storage: 1Gi  
+      storage: 1Gi   

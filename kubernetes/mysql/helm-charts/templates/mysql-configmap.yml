@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: db-conf
 data:
- host: {{ .Values.data.hosts }}
- name: {{ .Values.data.name }}
+ host: mysql
+ name: test  

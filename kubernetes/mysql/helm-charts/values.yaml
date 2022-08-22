@@ -42,7 +42,8 @@ service:
   type: ClusterIP
   port: 3306
   targetPort: 3306
-
+  name: mysql
+    
 ingress:
   enabled: false
   className: ""

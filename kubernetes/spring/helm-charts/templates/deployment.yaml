@@ -1,45 +1,31 @@
-kind: Service
-apiVersion: v1
-metadata:
-  name: springboot-k8s-mysql
-  labels:
-    name: springboot-k8s-mysql
-spec:
-  ports:
-    - nodePort: 30163 
-      port: 8080      
-      targetPort: 8080  
-      protocol: TCP
-  selector:           
-    app: springboot-k8s-mysql
-  type: NodePort       
-
----
 apiVersion: apps/v1 
 kind: Deployment    
 metadata:              
-  name: springboot-k8s-mysql
+  name: {{ .Release.Name }}
+  labels:
+    {{- include "helm-charts.labels" . | nindent 4 }}
 spec:                
   selector:         
     matchLabels:
-      app: springboot-k8s-mysql
-  replicas: 3        
+      {{- include "helm-charts.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicaCount }}       
   template:
     metadata:
       labels:        
-        app: springboot-k8s-mysql
+      {{- include "helm-charts.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: springboot-k8s-mysql
-          image: arun1801docker/springboot-k8s-deployment:3.0
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.repository | quote }}
+          imagePullPolicy: {{ .Values.image.imagepullPolicy }}
           ports:
             - containerPort: 8080                
           env:   # Setting Enviornmental Variables
-          - name: DB_HOST   # Setting Database host address from configMap
+          - name: {{ .Values.env.envname }}   # Setting Database host address from configMap
             valueFrom: 
               configMapKeyRef:
-                name: db-conf  # name of configMap
-                key: host
+                name: {{ .Values.env.configMap_key_Ref_name }}  # name of configMap
+                key: {{ .Values.env.configMap_key }}
           - name: DB_NAME  # Setting Database name from configMap
             valueFrom:
               configMapKeyRef:
@@ -55,4 +41,3 @@ spec:
               secretKeyRef:
                 name: db-credentials
                 key: password     
-        

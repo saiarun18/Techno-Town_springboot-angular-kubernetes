@@ -43,10 +43,10 @@ pipeline {
 		        sh 'cp -r ../my_pjt_new@2/target .'
                         withCredentials([string(credentialsId: 'docker-pass', variable: 'nexus_pwd')]) {
                         sh '''
-                           docker build -t 35.192.181.197:8083/spring:${VERSION} .
-                           docker login -u admin -p $nexus_pwd 35.192.181.197:8083
-                           docker push 35.192.181.197:8083/spring:${VERSION}
-                           docker rmi 35.192.181.197:8083/spring:${VERSION}
+                           docker build -t 104.196.55.139:8083/spring:${VERSION} .
+                           docker login -u admin -p $nexus_pwd 104.196.55.139:8083
+                           docker push 104.196.55.139:8083/spring:${VERSION}
+                           docker rmi 104.196.55.139:8083/spring:${VERSION}
                         '''
                         }
                         

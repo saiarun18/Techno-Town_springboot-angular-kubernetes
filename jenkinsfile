@@ -84,7 +84,7 @@ pipeline {
                 script{
                     withCredentials([kubeconfigFile(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
                         dir('kubernetes/spring/') {
-                        sh 'helm upgrade --install --set image.repository="104.196.55.139:8083/spring" --set image.tag="${VERSION}" springapp helm-charts/ ' 
+                        sh 'helm upgrade --install --set image.repository="104.196.55.139:8083/spring" --set image.tag="${VERSION}" springboot-k8s-mysql helm-charts/ ' 
                         }
                     }
                 }

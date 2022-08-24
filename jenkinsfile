@@ -52,6 +52,44 @@ pipeline {
                         
                     }
                 }
-            }   
+            }
+	    stage('Identify misconfiguration via datree') {
+            steps {
+                script{
+                 dir('kubernetes/mysql') {
+                     withEnv(['DATREE_TOKEN=609e2ae6-f19f-4e94-8e86-7031b500f335']) {
+                             sh 'helm datree test helm-charts/'
+                      }
+                 }
+                }
+            }
+        }
+	stage("pushing the helm charts to nexus"){
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'docker-pass', variable: 'nexus_pwd')]) {
+                          dir('kubernetes/spring') {
+                             sh '''
+                                 helmversion=$( helm show chart helm-charts | grep version | cut -d: -f 2 | tr -d ' ')
+                                 tar -czvf  helm-charts-${helmversion}.tgz helm-charts/
+                                 curl -u admin:$nexus_pwd http://104.196.55.139:8081/repository/helm-hosted/ --upload-file helm-charts-${helmversion}.tgz -v
+                            '''
+                          }
+                    }
+                }
+            }
+        }
+	stage('Deploying in Kubernetes Cluster'){
+            steps{
+                script{
+                    withCredentials([kubeconfigFile(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                        dir('kubernetes/spring/') {
+                        sh 'helm upgrade --install --set image.repository="104.196.55.139:8083/spring" --set image.tag="${VERSION}" springapp helm-charts/ ' 
+                        }
+                    }
+                }
+            }
+            
+        }
     }
 }

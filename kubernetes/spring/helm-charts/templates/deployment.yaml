@@ -18,7 +18,7 @@ spec:
         - name: regcred
       containers:
         - name: {{ .Chart.Name }}
-          image: {{ .Values.image.repository | quote }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.imagepullPolicy }}
           ports:
             - containerPort: 8080                
